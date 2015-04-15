@@ -13,8 +13,8 @@ using namespace std;
 class STokenize
 {
     private:
-        string mBlock; // a whole "hello, there. Please tokenize me! and, yeah "
-        unsigned int mPos;
+        string                 mBlock; // a whole "hello, there. Please tokenize me! and, yeah "
+        unsigned int           mPos;
         map<TokenType, string> mTokenDictionary; // this is a replacement for mCharList
 
         // Helper functions

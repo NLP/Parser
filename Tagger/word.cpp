@@ -22,6 +22,7 @@ Word::Word(const Word &other)
     mRawtypes    = other.getRawtypes();
     mDefinitions = other.getDefinitions();
 }
+
 std::set<WordType> Word::getTags() const
 {
     return mTags;
@@ -43,6 +44,12 @@ string Word::getName() const
     return getTokenString();
 }
 
+/**
+ * @brief Do nothing
+ */
+Word::~Word()
+{
+}
 
 } /* NLP */
 

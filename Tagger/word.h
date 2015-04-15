@@ -8,8 +8,11 @@
 #ifndef WORD_H
 #define WORD_H
 
-#include "Tokenizer/stokenize.h"
+#include "../Tokenizer/token.h"
+#include "../Tokenizer/stokenize.h"
 #include "set"
+
+using namespace std;
 
 namespace NLP
 {
@@ -23,21 +26,30 @@ enum WordType {
     others
 };
 
-class Word
+class Word : public Token
 {
     private:
-        string             mName; // or, lemma
-        std::set<WordType> mTags;
-        std::set<string>   mRawtypes; // un processed rawtypes
-        std::set<string>   mDefinitions;
+        set<WordType> mTags;
+        set<string>   mRawtypes; // un processed rawtypes
+        set<string>   mDefinitions;
 
     public:
-        Word();
+        Word(const Token& other, set<WordType> tags, set<string> rawT, set<string> defs);
+        Word(const Word&   other);
+        Word& operator = (const Word& newToken);
         ~Word();
-        string             getName()        const;
-        std::set<WordType> getTags()        const;
-        std::set<string>   getRawtypes()    const;
-        std::set<string>   getDefinitions() const;
+        string        getName()        const;
+        set<WordType> getTags()        const;
+        set<string>   getRawtypes()    const;
+        set<string>   getDefinitions() const;
+
+
+        friend ostream& operator << (ostream& outs, const Word& w)
+        {
+            outs << w.getName();
+            return outs;
+        }
+
 }; /* -----  end of class Word  ----- */
 
 } /* NLP */

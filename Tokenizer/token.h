@@ -38,12 +38,13 @@ static map<TokenType, string> TokenName = {
 
 class Token
 {
-    private:
-        string mTokenString;
+    protected:
+        string    mTokenString;
         TokenType mType;
 
     public:
         Token();
+        Token(const Token& other);
         Token(string s, TokenType type);
         Token(char ch, TokenType type);
         TokenType getType() const;
