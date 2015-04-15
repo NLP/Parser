@@ -10,6 +10,7 @@
 #include <string>
 #include <list>
 #include <QtSql>
+#include <sstream>
 
 #include "../Tokenizer/stokenize.h"
 #include "word.h"
@@ -29,8 +30,8 @@ namespace NLP
             list<Token> mTokens;            // store all essential tokens to be processed
 
             // Helper function
-            void       extractTokens();
-            QSqlRecord getWordRecord(string wordname);
+            void          extractTokens();
+            set<WordType> getWordTypes(string wordname);
 
         public:
             Converter(const string& sentence);
@@ -59,14 +60,15 @@ namespace NLP
     }
 
     /**
-     * @brief Helper function to wrap the requestj
+     * @brief Helper function to wrap the request database
+     *        QSqlDat, QSqlQuery has to be defined on same local scope for it to work
      * @param word
      */
-    QSqlRecord Converter::getWordRecord(string wordname)
+    set<WordType> Converter::getWordTypes(string wordname)
     {
 
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName("../testQtDatabase/en_db.sqlite");
+        db.setDatabaseName("../../en_db.sqlite"); // database in main project
         // Depending on where the build folder is
         // default NLP/Unit-Testing/build....
         if( !db.open() )
@@ -75,22 +77,38 @@ namespace NLP
             qFatal( "Failed to connect to database." );
         } else { cout << "database opened successfully!" << endl; }
 
-        QSqlQuery    mLiteQr;
-//        string qrStr = "SELECT definition FROM entries WHERE word = '" + wordname + "'";
-        mLiteQr.prepare( "SELECT definition FROM entries WHERE word = 'Apple'" );
-//        mLiteQr.prepare(qrStr.c_str());
+        /// Start query process
+        QSqlQuery   mLiteQr;
+        string qrStr = "SELECT wordtype FROM entries WHERE word = '" + wordname + "'";
+        QString rawTypesCollections;
+
+        set<string>    uniqueWT; // Create vector to hold our words
+        vector<string> vectorWT;
+
+        mLiteQr.prepare(qrStr.c_str());
         if( !mLiteQr.exec() )
             qDebug() << mLiteQr.lastError();
         else
         {
-            qDebug( "Selected!" );
+            /// Extracting process
             QSqlRecord rec = mLiteQr.record();
-            int cols = rec.count();
-            for( int c=0; c<cols; c++ )
-                qDebug() << QString( "Column %1: %2" ).arg( c ).arg( rec.fieldName(c) );
             for( int r=0; mLiteQr.next(); r++ )
-                for( int c=0; c<cols; c++ )
-                    qDebug() << QString( "%1, %2: %3" ).arg( r ).arg( rec.fieldName(c) ).arg( mLiteQr.value(c).toString() );
+                rawTypesCollections += mLiteQr.value(0).toString();
+            string buf; // Have a buffer string
+            stringstream ss(rawTypesCollections.toStdString()); // Insert the string into a stream
+            while (ss >> buf) {
+                uniqueWT.insert(buf);
+                vectorWT.push_back(buf);
+            }
+            cout << "raw : " << rawTypesCollections.toStdString() << endl;
+            cout << "---" << endl;
+            for(auto i : vectorWT)
+                cout << i << "         , len " << i.length() << endl;
+            cout << "---" << endl;
+            for(auto i : uniqueWT)
+                cout << i << endl;
+            cout << "---" << endl;
+
         }
     }
 
@@ -101,8 +119,9 @@ namespace NLP
     list<Word> Converter::getWords()
     {
 //        list<Word> nWords;
-        getWordRecord(string("Bear"));
-        for(auto token : mTokens)
+        set<WordType> foundTypes = getWordTypes(string("Bear"));
+
+        for(Token token : mTokens)
         {
             if(token.getType() == TokenType::ALPHA) {
                 cout << token.getTokenString() << endl;
