@@ -11,20 +11,12 @@
 #include "../Tokenizer/token.h"
 #include "../Tokenizer/stokenize.h"
 #include "set"
+#include "config.h"
 
 using namespace std;
 
 namespace NLP
 {
-
-// word tag? there are more, see .dat for list of them
-enum WordType {
-    adjective, adverb, conjunction,
-    noun, interjections, imperative,
-    past_part, preposition, pronoun,
-    verb,
-    others
-};
 
 class Word : public Token
 {
@@ -42,7 +34,6 @@ class Word : public Token
         set<WordType> getTags()        const;
         set<string>   getRawtypes()    const;
         set<string>   getDefinitions() const;
-
 
         friend ostream& operator << (ostream& outs, const Word& w)
         {
