@@ -1,8 +1,14 @@
 #include "token.h"
 
 
-Token::Token()
+Token::Token() : mType(UNKNOWN)
 {
+}
+
+Token::Token(const Token &other)
+{
+    mTokenString = other.getTokenString();
+    mType        = other.getType();
 }
 
 Token::Token(char ch, TokenType type) : mTokenString(string(1,ch)), mType(type)
