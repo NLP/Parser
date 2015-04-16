@@ -9,28 +9,29 @@
 namespace NLP
 {
 
-Word::Word(const Token &other, set<WordType> tags, set<string> rawT, set<string> defs)
-    : Token::Token(other), mTags(tags), mRawtypes(rawT), mDefinitions(defs)
+Word::Word(const Token &other, set<WordType> tags, set<string> defs)
+    : Token::Token(other), mTypes(tags), mDefinitions(defs)
 {
 }
 
-Word::Word(const Word &other)
+Word::Word(const Word &other) :
+    Token        ( other.getTokenString() , other.getType() ),
+    mTypes        ( other.getTypes()        ),
+    mDefinitions ( other.getDefinitions() )
 {
-    mTokenString = other.getTokenString();
-    mType        = other.getType();
-    mTags        = other.getTags();
-    mRawtypes    = other.getRawtypes();
-    mDefinitions = other.getDefinitions();
 }
 
-std::set<WordType> Word::getTags() const
+std::set<WordType> Word::getTypes() const
 {
-    return mTags;
+    return mTypes;
 }
 
-std::set<string> Word::getRawtypes() const
+string Word::getRawtypes() const
 {
-    return mRawtypes;
+    string rawT;
+    for(WordType WT : mTypes)
+        rawT += WordStringMap[WT] + string(" ,");
+    return rawT.substr(0,rawT.length() - 2);
 }
 
 std::set<string> Word::getDefinitions() const

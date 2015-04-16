@@ -13,6 +13,7 @@
 #include <sstream>
 
 #include "../Tokenizer/stokenize.h"
+#include "config.h"
 #include "word.h"
 
 using namespace std;
@@ -29,11 +30,10 @@ namespace NLP
             string      mSentence;          // original sentence
             list<Token> mTokens;            // store all essential tokens to be processed
 
-            QSqlDatabase mDb;
+            static QSqlDatabase mDb;
 
             // Helper function
             void          extractTokens();
-//            set<WordType> getWordTypes(string wordname, QSqlDatabase &db);
             set<WordType> getWordTypes(string wordname);
 
         public:
@@ -43,6 +43,7 @@ namespace NLP
             ~Converter();
     };
 
+    QSqlDatabase Converter::mDb = QSqlDatabase::addDatabase("QSQLITE");
 
     /**
      * @brief Constructor first setup the list of tokens from a sentence
@@ -54,11 +55,7 @@ namespace NLP
         mSentence(sentence)
     {
         extractTokens(); // extract tokens
-
-        mDb = QSqlDatabase::addDatabase("QSQLITE");
-        mDb.setDatabaseName("../../en_db.sqlite"); // database in main project
-        // Depending on where the build folder is
-        // default NLP/Unit-Testing/build....
+        mDb.setDatabaseName(DB_PATH); // database in main project
         if( !mDb.open() ) {
             qDebug() << mDb.lastError();
             qFatal( "Failed to connect to database." );
@@ -130,27 +127,27 @@ namespace NLP
     {
         // NOTE : Move database declaration here
 
-        list<set<WordType>> nWordsTypes;
+        list<Word>          WordList;
         set <WordType>      foundTypes;
 
         // try filling rolesj
         for(Token token : mTokens)
         {
-            if(token.getType() == TokenType::ALPHA) {
-                string wordStr = token.getTokenString();
-                STokenize::capitalize(wordStr);
+            if(token.getType() == TokenType::ALPHA) {         /// Check if its an alphabet
+                string wordStr = token.getTokenString();      /// Get the string
+                STokenize::capitalize(wordStr);               /// Capitalize needed for dictionary lookup
+                foundTypes = getWordTypes(wordStr);           /// Extract the possible types into sets
+                WordList.push_back(Word(token, foundTypes));  /// Add to the list of words
 
-                foundTypes = getWordTypes(wordStr);
-                cout << wordStr << " : ";
-                for(auto WordType : foundTypes)
-                    cout << WordStringMap[WordType] << ",";
-                cout << endl;
-                nWordsTypes.push_back(foundTypes);
+//                cout << wordStr << " : ";
+//                for(auto WordType : foundTypes)
+//                    cout << WordStringMap[WordType] << ",";
+//                cout << endl;
             }
         }
         // printing all roles
 
-        return list<Word>();
+        return WordList;
     }
 
     /**

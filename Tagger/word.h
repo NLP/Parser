@@ -21,18 +21,20 @@ namespace NLP
 class Word : public Token
 {
     private:
-        set<WordType> mTags;
-        set<string>   mRawtypes; // un processed rawtypes
+        set<WordType> mTypes;
         set<string>   mDefinitions;
 
     public:
-        Word(const Token& other, set<WordType> tags, set<string> rawT, set<string> defs);
+        Word(const Token& other,
+             set<WordType> tags,
+             set<string> defs = set<string>()
+        );
         Word(const Word&   other);
         Word& operator = (const Word& newToken);
         ~Word();
         string        getName()        const;
-        set<WordType> getTags()        const;
-        set<string>   getRawtypes()    const;
+        set<WordType> getTypes()        const;
+        string        getRawtypes()    const;
         set<string>   getDefinitions() const;
 
         friend ostream& operator << (ostream& outs, const Word& w)
