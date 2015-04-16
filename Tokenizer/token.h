@@ -20,7 +20,8 @@ enum TokenType {
     NUM = 4,
     OPERATOR = 5,
     PUNC = 6,
-    MATCHED = 7
+    MATCHED = 7,
+    QUESTION
 };
 //bool operator == (const TokenType& l, const TokenType& r) { return l == r; }
 
@@ -34,6 +35,7 @@ static map<TokenType, string> TokenName = {
     {OPERATOR, "OPERATOR"},
     {PUNC, "PUNC"},
     {MATCHED, "MATCHED"},
+    {QUESTION, "QUESTION"}
 };
 
 class Token

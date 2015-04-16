@@ -106,6 +106,7 @@ void STokenize::constructDictionary()
     mTokenDictionary[OPERATOR] = "+-*/=%^!<>";
     mTokenDictionary[PUNC] = ".,;:\'";
     mTokenDictionary[MATCHED] = "()\"[]{}\'";
+    mTokenDictionary[QUESTION] = "?";
 }
 
 STokenize::~STokenize()
