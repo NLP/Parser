@@ -106,6 +106,13 @@ namespace NLP
             rawTypesCollections += string(" ");            /// Add spaces in-between to make extracting easier
             rawTypesCollections += mLiteQr.value(0).toString().toStdString();
         }
+        /// Clean up comma, and maybe other weird character in wordtypes if necessary
+        rawTypesCollections.erase(std::remove(rawTypesCollections.begin(),
+                                              rawTypesCollections.end(), ',')
+                                  , rawTypesCollections.end());
+        rawTypesCollections.erase(std::remove(rawTypesCollections.begin(),
+                                              rawTypesCollections.end(), '&')
+                                  , rawTypesCollections.end());
         string       buf; // Have a buffer string
         stringstream ss(rawTypesCollections); // Insert the string into a stream
 

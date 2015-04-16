@@ -15,10 +15,10 @@ namespace NLP
     // word tag? there are more, see .dat for list of them
     enum WordType {
         others = 0,
-        adjective , adverb        , conjunction ,
+        adjective , adverb        , conjunction , dative,
         noun      , interjections , imperative  ,
         particple , preposition   , pronoun     , plural , singular,
-        verb      , transitive, intransitive, object,
+        verb      , transitive, intransitive, interrogative, object,
 
         IGNORETHIS
     };
@@ -32,20 +32,25 @@ namespace NLP
         {"imp."    , imperative    } ,
         {"p."      , particple     } ,
         {"prep."   , preposition   } ,
+        {"dat."      , dative     } ,
+        {"interrog."      , interrogative     } ,
 
         {"pr."     , pronoun       } ,
         {"pron."   , pronoun   } ,              /// He,She, ...
         {"obj."   , pronoun   } ,               /// Thou, They, etc
 
+
         {"pl."     , plural        } ,
         {"sing."     , singular        } ,
         {"v."     , verb          } ,
 
-        {"obj."     , object          } ,
+        {"object."     , object          } ,
         {"t."     , transitive          } ,
         {"i."     , intransitive          } ,
 
         {"?"        , others        },
+
+        /// IGNORE LIST
         {"&"        , IGNORETHIS        },
         {"/"        , IGNORETHIS        }
     };
@@ -64,9 +69,11 @@ namespace NLP
         {singular       , "sing."      } ,
         {pronoun       , "pron."     } ,
         {verb          , "v."     } ,
-        {object         , "obj."      } ,
+        {object         , "object."      } ,
         {transitive         , "t."      } ,
         {intransitive         , "i."      },
+        {dative         , "dat."     } ,
+        {interrogative  , "interrog."  } ,
 
         {IGNORETHIS         , "IGNORE"      }
     };
