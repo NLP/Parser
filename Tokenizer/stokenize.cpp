@@ -1,4 +1,5 @@
 #include "stokenize.h"
+#include <algorithm>
 
 
 STokenize::STokenize(const string s)
@@ -52,6 +53,16 @@ vector<Token> STokenize::getTokens()
         allTokens.push_back(nextToken());
     }
     return allTokens;
+}
+
+/**
+ * @brief Static function that is used to capitalize external string
+ * @param external string
+ */
+void STokenize::capitalize(string &s)
+{
+    std::transform(s.begin(), s.begin(), s.begin(), ::tolower);
+    std::transform(s.begin(), s.begin() + 1, s.begin(), ::toupper);
 }
 
 TokenType STokenize::getTokenType(const char &ch)

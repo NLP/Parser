@@ -13,7 +13,9 @@ namespace NLP
         adjective , adverb        , conjunction ,
         noun      , interjections , imperative  ,
         particple , preposition   , pronoun     , plural , singular,
-        verb      , transitive, intransitive, object
+        verb      , transitive, intransitive, object,
+
+        IGNORETHIS
     };
 
     static map<string, WordType> WordTypeMap = {
@@ -25,16 +27,22 @@ namespace NLP
         {"imp."    , imperative    } ,
         {"p."      , particple     } ,
         {"prep."   , preposition   } ,
+
+        {"pr."     , pronoun       } ,
+        {"pron."   , pronoun   } ,              /// He,She, ...
+        {"obj."   , pronoun   } ,               /// Thou, They, etc
+
         {"pl."     , plural        } ,
         {"sing."     , singular        } ,
-        {"pr."     , pronoun       } ,
         {"v."     , verb          } ,
 
         {"obj."     , object          } ,
         {"t."     , transitive          } ,
         {"i."     , intransitive          } ,
 
-        {"?."        , others        }
+        {"?"        , others        },
+        {"&"        , IGNORETHIS        },
+        {"/"        , IGNORETHIS        }
     };
 
     static map<WordType, string> WordStringMap = {
@@ -49,11 +57,13 @@ namespace NLP
         {preposition   , "prep."   } ,
         {plural        , "pl."     } ,
         {singular       , "sing."      } ,
-        {pronoun       , "pr."     } ,
+        {pronoun       , "pron."     } ,
         {verb          , "v."     } ,
         {object         , "obj."      } ,
         {transitive         , "t."      } ,
-        {intransitive         , "i."      }
+        {intransitive         , "i."      },
+
+        {IGNORETHIS         , "IGNORE"      }
     };
 
 

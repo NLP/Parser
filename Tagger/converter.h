@@ -29,8 +29,11 @@ namespace NLP
             string      mSentence;          // original sentence
             list<Token> mTokens;            // store all essential tokens to be processed
 
+            QSqlDatabase mDb;
+
             // Helper function
             void          extractTokens();
+//            set<WordType> getWordTypes(string wordname, QSqlDatabase &db);
             set<WordType> getWordTypes(string wordname);
 
         public:
@@ -41,10 +44,26 @@ namespace NLP
     };
 
 
+    /**
+     * @brief Constructor first setup the list of tokens from a sentence
+     *        Then, connect Dictionary database to a private QSqlDatabase variable
+     *        This database will be used by any query created in this class
+     * @param sentence
+     */
     Converter::Converter(const string &sentence) :
         mSentence(sentence)
     {
         extractTokens(); // extract tokens
+
+        mDb = QSqlDatabase::addDatabase("QSQLITE");
+        mDb.setDatabaseName("../../en_db.sqlite"); // database in main project
+        // Depending on where the build folder is
+        // default NLP/Unit-Testing/build....
+        if( !mDb.open() ) {
+            qDebug() << mDb.lastError();
+            qFatal( "Failed to connect to database." );
+            throw std::invalid_argument("Debug: No database found");
+        } else { qDebug() << "Debug: Database opened." << endl; }
     }
 
 
@@ -72,50 +91,32 @@ namespace NLP
     set<WordType> Converter::getWordTypes(string wordname)
     {
 
-        // BUG : Database can't be accessed twice in a local scope
-        //       move to higher function
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName("../../en_db.sqlite"); // database in main project
-
-        // Depending on where the build folder is
-        // default NLP/Unit-Testing/build....
-        if( !db.open() ) {
-            qDebug() << db.lastError();
-            qFatal( "Failed to connect to database." );
-            throw std::invalid_argument("No database found");
-        } else { qDebug() << "Database opened." << endl; }
-
         /// Start query process
-        QSqlQuery   mLiteQr;
-        string qrStr = "SELECT wordtype FROM entries WHERE word = '" + wordname + "'";
-        string rawTypesCollections;
-
-        set<string>    uniqueWT; // Create vector to hold our words
-//        vector<string> vectorWT;
+        QSqlQuery       mLiteQr;
+        string          qrStr = "SELECT wordtype FROM entries WHERE word = '" + wordname + "'";
+        string          rawTypesCollections;
+        set<string>     uniqueWT; // Create vector to hold our words
 
         mLiteQr.prepare(qrStr.c_str());
         if( !mLiteQr.exec() ) {
             qDebug() << mLiteQr.lastError();
             throw std::invalid_argument("Invalid query.");
-        }
+         }
 
         /// Extracting process
         QSqlRecord rec = mLiteQr.record();
         for( int r=0; mLiteQr.next(); r++ ) {
-            rawTypesCollections += string(" ");            // To make extracting easier
+            rawTypesCollections += string(" ");            /// Add spaces in-between to make extracting easier
             rawTypesCollections += mLiteQr.value(0).toString().toStdString();
         }
-        string buf; // Have a buffer string
+        string       buf; // Have a buffer string
         stringstream ss(rawTypesCollections); // Insert the string into a stream
-        while (ss >> buf) {
-            uniqueWT.insert(buf);
-        }
-        //            cout << "raw : " << rawTypesCollections << endl;
 
-        set<WordType> WordTypes;
+        while (ss >> buf)
+            uniqueWT.insert(buf);
+
         /// Converting sets of string to sets of WordTypes
-        //        cout << "Debug wordtypes : ";
-        //            cout << WT << " : " << WordTypeMap[WT] << " , ";
+        set<WordType>   WordTypes;
         for(string WT : uniqueWT)
             WordTypes.insert(WordTypeMap[WT]);
         return WordTypes;
@@ -128,23 +129,23 @@ namespace NLP
     list<Word> Converter::getWords()
     {
         // NOTE : Move database declaration here
+
         list<set<WordType>> nWordsTypes;
-
-        set<WordType> foundTypes;
-
-//        for(auto WordType : foundTypes)
-//            cout << WordStringMap[WordType] << endl;
+        set <WordType>      foundTypes;
 
         // try filling rolesj
         for(Token token : mTokens)
         {
             if(token.getType() == TokenType::ALPHA) {
-                foundTypes = getWordTypes(token.getTokenString());
-                nWordsTypes.push_back(foundTypes);
-                cout << token.getTokenString() << " : ";
-                for(WordType TType : foundTypes)
-                    cout << WordStringMap[TType] << " , ";
+                string wordStr = token.getTokenString();
+                STokenize::capitalize(wordStr);
+
+                foundTypes = getWordTypes(wordStr);
+                cout << wordStr << " : ";
+                for(auto WordType : foundTypes)
+                    cout << WordStringMap[WordType] << ",";
                 cout << endl;
+                nWordsTypes.push_back(foundTypes);
             }
         }
         // printing all roles
@@ -162,3 +163,11 @@ namespace NLP
 } /* NLP */
 
 #endif /* !CONVERTER_H */
+/** Notes
+  * Query examples :
+  * Word             : SELECT * FROM entries WHERE word = 'Car'
+  * Wordypes         : SELECT * FROM entries WHERE wordtype = 'obj.'
+  * Distinct         : SELECT DISTINCT wordtype FROM entries
+  * If word contains : SELECT * FROM entries WHERE word LIKE 'Car%'
+  *
+  */

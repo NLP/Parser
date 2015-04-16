@@ -31,10 +31,13 @@ class STokenize
 
         void reset(); // reset mPos
         bool More(); //check if there is more token to extract
+        bool Fail(); //unkown, !More() ?
         Token nextToken(); // Get next token in a mBlock
         vector<Token> getTokens();
 
-        bool Fail(); //unkown, !More() ?
+        // Static Functions to operate with external datas
+        static void capitalize(string& s);
+
         ~STokenize(); // destroy none, no dynamic allocation
 };
 
