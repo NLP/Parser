@@ -34,7 +34,7 @@ namespace NLP
 
             // Helper function
             void          extractTokens();
-            set<WordType> getWordTypes(string wordname);
+            set<WordType> getWordTypes(string wordname, size_t recurDepth = 0);
 
         public:
             Converter(const string& sentence);
@@ -81,19 +81,23 @@ namespace NLP
     }
 
     /**
-     * @brief Helper function to wrap the request database
+     * @brief Function takes a 'word' and return a set of possible WordTypes
+     *        * Helper function to wrap the request database
      *        QSqlDat, QSqlQuery has to be defined on same local scope for it to work
+     * @note  Has recursive algorithm
      * @param word in string
+     * @return set of WordType (or tags)
      */
-    set<WordType> Converter::getWordTypes(string wordname)
+    set<WordType> Converter::getWordTypes(string wordname, size_t recurDepth)
     {
 
         /// Start query process
         QSqlQuery       mLiteQr;
-        string          qrStr = "SELECT wordtype FROM entries WHERE word = '" + wordname + "'";
+        string          qrStr = "SELECT DISTINCT wordtype FROM entries WHERE word = '" + wordname + "'";
         string          rawTypesCollections;
         set<string>     uniqueWT; // Create vector to hold our words
 
+        /// Run, then Check if the query is valid
         mLiteQr.prepare(qrStr.c_str());
         if( !mLiteQr.exec() ) {
             qDebug() << mLiteQr.lastError();
@@ -102,10 +106,21 @@ namespace NLP
 
         /// Extracting process
         QSqlRecord rec = mLiteQr.record();
-        for( int r=0; mLiteQr.next(); r++ ) {
-            rawTypesCollections += string(" ");            /// Add spaces in-between to make extracting easier
+        while( mLiteQr.next() ) {
+            rawTypesCollections += string(" "); /// Add spaces in-between to make extracting easier
             rawTypesCollections += mLiteQr.value(0).toString().toStdString();
         }
+
+        /// Recursive Method
+        /// If no queries is found, the word might be in plural form, use recursive method to extract lesser string
+        /// NOTE : This is not the optimal method
+        /// check if wordtype query is empty, word is not too short, and not cut more than 2 times
+        if (rawTypesCollections.empty() && wordname.length() > 1 && recurDepth < 3) {
+//            cout << "len WT of " << wordname << " : " << rawTypesCollections.length() << endl;
+//            cout << " calling recursive for : " << wordname << endl;
+            return getWordTypes(wordname.substr(0, wordname.length() - 1), recurDepth + 1);
+        }
+
         /// Clean up comma, and maybe other weird character in wordtypes if necessary
         rawTypesCollections.erase(std::remove(rawTypesCollections.begin(),
                                               rawTypesCollections.end(), ',')
