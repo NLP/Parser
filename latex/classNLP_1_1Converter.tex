@@ -1,0 +1,74 @@
+\hypertarget{classNLP_1_1Converter}{\section{N\-L\-P\-:\-:Converter Class Reference}
+\label{classNLP_1_1Converter}\index{N\-L\-P\-::\-Converter@{N\-L\-P\-::\-Converter}}
+}
+
+
+Class to process a sentence and generate the list of words and it's corresponding datas.  
+
+
+
+
+{\ttfamily \#include $<$converter.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classNLP_1_1Converter_a7da0cffead471133931098b132ed9631}{Converter} (const string \&sentence)
+\begin{DoxyCompactList}\small\item\em Constructor first setup the list of tokens from a sentence Then, connect Dictionary database to a private Q\-Sql\-Database variable This database will be used by any query created in this class. \end{DoxyCompactList}\item 
+list$<$ \hyperlink{classNLP_1_1Word}{Word} $>$ \hyperlink{classNLP_1_1Converter_a136cb6f6f522af85ec0a4cc4dac61645}{get\-Words} ()
+\begin{DoxyCompactList}\small\item\em Function to finalize the list of words to be returned, along with its corresponding roles. \end{DoxyCompactList}\item 
+\hypertarget{classNLP_1_1Converter_a417bff3c0e0b23e25e231fa088c0cd05}{\hyperlink{classNLP_1_1Converter_a417bff3c0e0b23e25e231fa088c0cd05}{$\sim$\-Converter} ()}\label{classNLP_1_1Converter_a417bff3c0e0b23e25e231fa088c0cd05}
+
+\begin{DoxyCompactList}\small\item\em no dynamic thing to destroy for now \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class to process a sentence and generate the list of words and it's corresponding datas. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classNLP_1_1Converter_a7da0cffead471133931098b132ed9631}{\index{N\-L\-P\-::\-Converter@{N\-L\-P\-::\-Converter}!Converter@{Converter}}
+\index{Converter@{Converter}!NLP::Converter@{N\-L\-P\-::\-Converter}}
+\subsubsection[{Converter}]{\setlength{\rightskip}{0pt plus 5cm}N\-L\-P\-::\-Converter\-::\-Converter (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{sentence}
+\end{DoxyParamCaption}
+)}}\label{classNLP_1_1Converter_a7da0cffead471133931098b132ed9631}
+
+
+Constructor first setup the list of tokens from a sentence Then, connect Dictionary database to a private Q\-Sql\-Database variable This database will be used by any query created in this class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sentence} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classNLP_1_1Converter_a136cb6f6f522af85ec0a4cc4dac61645}{\index{N\-L\-P\-::\-Converter@{N\-L\-P\-::\-Converter}!get\-Words@{get\-Words}}
+\index{get\-Words@{get\-Words}!NLP::Converter@{N\-L\-P\-::\-Converter}}
+\subsubsection[{get\-Words}]{\setlength{\rightskip}{0pt plus 5cm}list$<$ {\bf Word} $>$ N\-L\-P\-::\-Converter\-::get\-Words (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classNLP_1_1Converter_a136cb6f6f522af85ec0a4cc4dac61645}
+
+
+Function to finalize the list of words to be returned, along with its corresponding roles. 
+
+\begin{DoxyReturn}{Returns}
+list$<$\-Word$>$ 
+\end{DoxyReturn}
+Check if its an alphabet
+
+Get the string
+
+Capitalize needed for dictionary lookup
+
+Extract the possible types into sets
+
+Add to the list of words 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Tagger/converter.\-h\end{DoxyCompactItemize}

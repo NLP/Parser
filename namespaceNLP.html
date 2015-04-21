@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>My Project: Parser Project Documentation</title>
+<title>My Project: NLP Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -36,9 +36,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -59,7 +59,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="namespaces.html"><span>Namespace&#160;List</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -74,12 +78,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">Parser Project Documentation </div>  </div>
+<div class="title">NLP Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This repository contains the basic steps in of <a class="el" href="namespaceNLP.html">NLP</a>. Tokenizer and Tagger </p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNLP_1_1Converter.html">Converter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to process a sentence and generate the list of words and it's corresponding datas.  <a href="classNLP_1_1Converter.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNLP_1_1Word.html">Word</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Class to store token and its corresponding tags and definitions.  <a href="classNLP_1_1Word.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a13ae1ca535310b45a25d0a52e4dba6a6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>WordType</b> { <br/>
+&#160;&#160;<b>others</b> = 0, 
+<b>adjective</b>, 
+<b>adverb</b>, 
+<b>conjunction</b>, 
+<br/>
+&#160;&#160;<b>dative</b>, 
+<b>noun</b>, 
+<b>interjections</b>, 
+<b>imperative</b>, 
+<br/>
+&#160;&#160;<b>particple</b>, 
+<b>preposition</b>, 
+<b>pronoun</b>, 
+<b>plural</b>, 
+<br/>
+&#160;&#160;<b>singular</b>, 
+<b>verb</b>, 
+<b>transitive</b>, 
+<b>intransitive</b>, 
+<br/>
+&#160;&#160;<b>interrogative</b>, 
+<b>object</b>, 
+<b>IGNORETHIS</b>
+<br/>
+ }</td></tr>
+<tr class="separator:a13ae1ca535310b45a25d0a52e4dba6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2a777e12096928b1e7d904b6d6484556"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a777e12096928b1e7d904b6d6484556"></a>
+const QString&#160;</td><td class="memItemRight" valign="bottom"><b>DB_PATH</b> = &quot;../../en_db.sqlite&quot;</td></tr>
+<tr class="separator:a2a777e12096928b1e7d904b6d6484556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>word.cpp Copyright (C) 2015 Tony Lim <a href="#" onclick="location.href='mai'+'lto:'+'ato'+'mi'+'cth'+'eo'+'ris'+'t@'+'gma'+'il'+'.co'+'m'; return false;">atomi<span style="display: none;">.nosp@m.</span>cthe<span style="display: none;">.nosp@m.</span>orist<span style="display: none;">.nosp@m.</span>@gma<span style="display: none;">.nosp@m.</span>il.co<span style="display: none;">.nosp@m.</span>m</a></p>
+<p>Distributed under terms of the MIT license. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

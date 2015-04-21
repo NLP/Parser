@@ -1,0 +1,79 @@
+\hypertarget{classSTokenize}{\section{S\-Tokenize Class Reference}
+\label{classSTokenize}\index{S\-Tokenize@{S\-Tokenize}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classSTokenize_a6580cda9efc651908d5626b3e66a163c}{{\bfseries S\-Tokenize} (const string s)}\label{classSTokenize_a6580cda9efc651908d5626b3e66a163c}
+
+\item 
+\hypertarget{classSTokenize_ae0f9e9a36380b32b7d957649b246d3af}{void {\bfseries set\-Block} (const string \&block)}\label{classSTokenize_ae0f9e9a36380b32b7d957649b246d3af}
+
+\item 
+\hypertarget{classSTokenize_afebcdcb4e3710479e4ebec169aa379d6}{const string \& {\bfseries get\-Block} ()}\label{classSTokenize_afebcdcb4e3710479e4ebec169aa379d6}
+
+\item 
+\hypertarget{classSTokenize_adaa02543ad76313875bf18b9409a48c8}{void {\bfseries reset} ()}\label{classSTokenize_adaa02543ad76313875bf18b9409a48c8}
+
+\item 
+\hypertarget{classSTokenize_ae8e17715d0b292e35b2336a86aa5916e}{bool {\bfseries More} ()}\label{classSTokenize_ae8e17715d0b292e35b2336a86aa5916e}
+
+\item 
+\hypertarget{classSTokenize_ac90d384565139885b7946d1cc1077051}{bool {\bfseries Fail} ()}\label{classSTokenize_ac90d384565139885b7946d1cc1077051}
+
+\item 
+\hyperlink{classToken}{Token} \hyperlink{classSTokenize_af07af94359f0047076e07cac66598d81}{next\-Token} ()
+\begin{DoxyCompactList}\small\item\em a function that return the next\-Token object based if there is no \hyperlink{classToken}{Token} to return gives error  at m\-Pos, determine the type of the token from char at m\-Pos, find a Pos where the token type does not match if token is unknwon add next unknowns to Dictionary\mbox{[}unknown\mbox{]} update m\-Pos return token, or exception \end{DoxyCompactList}\item 
+\hypertarget{classSTokenize_a8e9f90d673b18047570f25cf8e855be3}{vector$<$ \hyperlink{classToken}{Token} $>$ {\bfseries get\-Tokens} ()}\label{classSTokenize_a8e9f90d673b18047570f25cf8e855be3}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classSTokenize_aba20bf7176cd5c944843bd778b23e4fd}{capitalize} (string \&s)
+\begin{DoxyCompactList}\small\item\em Static function that is used to capitalize external string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classSTokenize_af3c218c34f73d21111fd3df57418a3e7}{\hyperlink{classSTokenize}{S\-Tokenize} \& {\bfseries operator$>$$>$} (\hyperlink{classSTokenize}{S\-Tokenize} \&t, string \&token)}\label{classSTokenize_af3c218c34f73d21111fd3df57418a3e7}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classSTokenize_aba20bf7176cd5c944843bd778b23e4fd}{\index{S\-Tokenize@{S\-Tokenize}!capitalize@{capitalize}}
+\index{capitalize@{capitalize}!STokenize@{S\-Tokenize}}
+\subsubsection[{capitalize}]{\setlength{\rightskip}{0pt plus 5cm}void S\-Tokenize\-::capitalize (
+\begin{DoxyParamCaption}
+\item[{string \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classSTokenize_aba20bf7176cd5c944843bd778b23e4fd}
+
+
+Static function that is used to capitalize external string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em external} & string \\
+\hline
+\end{DoxyParams}
+\hypertarget{classSTokenize_af07af94359f0047076e07cac66598d81}{\index{S\-Tokenize@{S\-Tokenize}!next\-Token@{next\-Token}}
+\index{next\-Token@{next\-Token}!STokenize@{S\-Tokenize}}
+\subsubsection[{next\-Token}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Token} S\-Tokenize\-::next\-Token (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classSTokenize_af07af94359f0047076e07cac66598d81}
+
+
+a function that return the next\-Token object based if there is no \hyperlink{classToken}{Token} to return gives error  at m\-Pos, determine the type of the token from char at m\-Pos, find a Pos where the token type does not match if token is unknwon add next unknowns to Dictionary\mbox{[}unknown\mbox{]} update m\-Pos return token, or exception 
+
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Tokenizer/stokenize.\-h\item 
+Tokenizer/stokenize.\-cpp\end{DoxyCompactItemize}
