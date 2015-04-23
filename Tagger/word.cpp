@@ -9,6 +9,10 @@
 namespace NLP
 {
 
+Word::Word() : Token()
+{
+}
+
 Word::Word(const Token &other, set<WordType> tags, set<string> defs)
     : Token::Token(other), mTypes(tags), mDefinitions(defs)
 {
@@ -19,6 +23,13 @@ Word::Word(const Word &other) :
     mTypes        ( other.getTypes()        ),
     mDefinitions ( other.getDefinitions() )
 {
+}
+
+Word &Word::operator =(const Word &newToken)
+{
+    this->mType  = newToken.getType();
+    mTypes       = newToken.getTypes();
+    mDefinitions = newToken.getDefinitions();
 }
 
 std::set<WordType> Word::getTypes() const
