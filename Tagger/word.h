@@ -11,7 +11,7 @@
 #include "../Tokenizer/token.h"
 #include "../Tokenizer/stokenize.h"
 #include "set"
-#include "config.h"
+#include "../../CONFIG/config.h"
 
 using namespace std;
 

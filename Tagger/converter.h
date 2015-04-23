@@ -13,7 +13,7 @@
 #include <sstream>
 
 #include "../Tokenizer/stokenize.h"
-#include "config.h"
+#include "../../CONFIG/config.h"
 #include "word.h"
 
 using namespace std;
