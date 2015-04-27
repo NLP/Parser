@@ -25,6 +25,7 @@ class Word : public Token
         set<string>   mDefinitions;
 
     public:
+        Word();
         Word(const Token& other,
              set<WordType> tags,
              set<string> defs = set<string>()

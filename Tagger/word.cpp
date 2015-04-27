@@ -11,6 +11,7 @@ namespace NLP
 
 Word::Word() : Token()
 {
+    mTypes = {IGNORETHIS};
 }
 
 Word::Word(const Token &other, set<WordType> tags, set<string> defs)
@@ -27,6 +28,7 @@ Word::Word(const Word &other) :
 
 Word &Word::operator =(const Word &newToken)
 {
+    this->mTokenString = newToken.getTokenString();
     this->mType  = newToken.getType();
     mTypes       = newToken.getTypes();
     mDefinitions = newToken.getDefinitions();
