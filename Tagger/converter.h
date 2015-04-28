@@ -21,6 +21,10 @@ using namespace std;
 namespace NLP
 {
 
+    /// Relative path of where Dictionary database is
+    /// Note : Path is relative to where "build" folder is generated
+    const QString DB_PATH = "../../en_db.sqlite";
+
     /**
      * @brief Class to process a sentence and generate the list of words and it's corresponding datas
      */
