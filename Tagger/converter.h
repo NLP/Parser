@@ -43,7 +43,7 @@ namespace NLP
         public:
             Converter(const string& sentence);
 
-            list<Word>  getWords();
+            vector<Word>  getWords();
             ~Converter();
     };
 
@@ -149,11 +149,11 @@ namespace NLP
      * @brief Function to finalize the list of words to be returned, along with its corresponding roles
      * @return list<Word>
      */
-    list<Word> Converter::getWords()
+    vector<Word> Converter::getWords()
     {
         // NOTE : Move database declaration here
 
-        list<Word>          WordList;
+        vector<Word>          WordList;
         set <WordType>      foundTypes;
 
         // try filling rolesj
