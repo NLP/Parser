@@ -35,6 +35,7 @@ namespace NLP
             void          extractTokens();
             void 		  convertAllToLower(); /// this is needed for database consistency
             set<WordType> getWordTypes(string wordname, size_t recurDepth = 0);
+            set<string>   getUnqStringWT(string &rawTypesCollections);
 
         public:
             static QSqlDatabase mDb;
@@ -134,7 +135,6 @@ namespace NLP
         QSqlQuery       mLiteQr(this->mDb);
         string          qrStr = "SELECT DISTINCT wordtype FROM entries WHERE word = '" + wordname + "'";
         string          rawTypesCollections;
-        set<string>     uniqueWT; // Create vector to hold our words
 
         /// Run, then Check if the query is valid
         mLiteQr.prepare(qrStr.c_str());
@@ -153,18 +153,37 @@ namespace NLP
         /// If no queries is found, the word might be in plural form, use recursive method to extract lesser string
         /// NOTE : This is not the optimal method
         /// check if wordtype query is empty, word is not too short, and not cut more than 2 times
+        /// Finally, if the recursion does not fonund anyting,
+        /// function will return a vector of only 'noun' type
         if (rawTypesCollections.empty() && wordname.length() > 1 && recurDepth < 3) {
-//            cout << "len WT of " << wordname << " : " << rawTypesCollections.length() << endl;
-//            cout << " calling recursive for : " << wordname << endl;
             return getWordTypes(wordname.substr(0, wordname.length() - 1), recurDepth + 1);
         } else if (recurDepth > 2 || wordname.length () <= 1){
             set<WordType> nameEntity;
             nameEntity.insert (WordType::noun);
             return nameEntity;
         }
+
+        /// process the raw result types from all the queries
+        set<string>     uniqueWT = getUnqStringWT (rawTypesCollections);
+
+        /// Converting sets of string to sets of WordTypes
+        set<WordType>   WordTypes;
+        for(string WT : uniqueWT)
+            WordTypes.insert(WordTypeMap[WT]);
+        return WordTypes;
+    }
+
+    /**
+     * @brief Converter::getStringWT
+     * 	Helper function that takes a rawTypesCollection (there might be duplicates0
+     * 	and return processed vector of unique string of wordtypes
+     * @return
+     */
+    set<string> Converter::getUnqStringWT(string& rawTypesCollections)
+    {
         /// Clean up comma, and maybe other weird character in wordtypes if necessary
         rawTypesCollections.erase(std::remove(rawTypesCollections.begin()
-                                  , rawTypesCollections.end(), ',')
+                                              , rawTypesCollections.end(), ',')
                                   , rawTypesCollections.end());
         rawTypesCollections.erase(std::remove(rawTypesCollections.begin(),
                                               rawTypesCollections.end(), '&')
@@ -172,14 +191,10 @@ namespace NLP
         string       buf; // Have a buffer string
         stringstream ss(rawTypesCollections); // Insert the string into a stream
 
+        set<string> uniqueWT;
         while (ss >> buf)
             uniqueWT.insert(buf);
-
-        /// Converting sets of string to sets of WordTypes
-        set<WordType>   WordTypes;
-        for(string WT : uniqueWT)
-            WordTypes.insert(WordTypeMap[WT]);
-        return WordTypes;
+        return uniqueWT;
     }
 
     /**
