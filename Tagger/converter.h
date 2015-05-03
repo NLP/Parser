@@ -21,9 +21,6 @@ using namespace std;
 namespace NLP
 {
 
-    /// Relative path of where Dictionary database is
-    /// Note : Path is relative to where "build" folder is generated
-    const QString DB_PATH = "../../en_db.sqlite";
 
     /**
      * @brief Class to process a sentence and generate the list of words and it's corresponding datas
@@ -34,20 +31,38 @@ namespace NLP
             string      mSentence;          // original sentence
             list<Token> mTokens;            // store all essential tokens to be processed
 
-            static QSqlDatabase mDb;
-
             // Helper function
             void          extractTokens();
             set<WordType> getWordTypes(string wordname, size_t recurDepth = 0);
 
         public:
+            static QSqlDatabase mDb;
+            Converter ();
             Converter(const string& sentence);
 
+            void		  setString(const string& newstr);
             vector<Word>  getWords();
             ~Converter();
     };
 
-    QSqlDatabase Converter::mDb = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase Converter::mDb = QSqlDatabase::addDatabase("QSQLITE", "ENG_DICT");
+
+    /**
+     * @brief Converter::Converter
+     * 		Default constructor that takes no string,
+     * 	@note It is better to use only one class instead of making new instance everythin
+     * 		a conversion is needed
+     * 		// TODO : Do the same for STokenize
+     */
+    Converter::Converter()
+    {
+        mDb.setDatabaseName(DB_PATH); // database in main project
+        if( !mDb.open() ) {
+            qDebug() << mDb.lastError();
+            qFatal( "Failed to connect to database." );
+            throw std::invalid_argument("Error: Invalid database");
+        } else { qDebug() << "Debug: Database opened." << endl; }
+    }
 
     /**
      * @brief Constructor first setup the list of tokens from a sentence
@@ -55,16 +70,10 @@ namespace NLP
      *        This database will be used by any query created in this class
      * @param sentence
      */
-    Converter::Converter(const string &sentence) :
-        mSentence(sentence)
+    Converter::Converter(const string &sentence) : Converter()
     {
+        mSentence = sentence;
         extractTokens(); // extract tokens
-        mDb.setDatabaseName(DB_PATH); // database in main project
-        if( !mDb.open() ) {
-            qDebug() << mDb.lastError();
-            qFatal( "Failed to connect to database." );
-            throw std::invalid_argument("Error: Invalid database");
-        } else { qDebug() << "Debug: Database opened." << endl; }
     }
 
 
@@ -85,10 +94,22 @@ namespace NLP
     }
 
     /**
+     * @brief Converter::setString
+     * 	set string to reconvert
+     * @param newstr
+     */
+    void Converter::setString(const string &newstr)
+    {
+        mSentence = newstr;
+        extractTokens ();
+    }
+
+    /**
      * @brief Function takes a 'word' and return a set of possible WordTypes
      *        * Helper function to wrap the request database
      *        QSqlDat, QSqlQuery has to be defined on same local scope for it to work
      * @note  Has recursive algorithm
+     * @pre	  mTokens must have all necessary tokens
      * @param word in string
      * @return set of WordType (or tags)
      */
@@ -96,7 +117,7 @@ namespace NLP
     {
 
         /// Start query process
-        QSqlQuery       mLiteQr;
+        QSqlQuery       mLiteQr(this->mDb);
         string          qrStr = "SELECT DISTINCT wordtype FROM entries WHERE word = '" + wordname + "'";
         string          rawTypesCollections;
         set<string>     uniqueWT; // Create vector to hold our words
