@@ -113,6 +113,7 @@ namespace NLP
      */
     void Converter::setString(const string &newstr)
     {
+        mTokens.clear ();
         mSentence = newstr;
         extractTokens ();
     }
@@ -123,7 +124,7 @@ namespace NLP
      *        QSqlDat, QSqlQuery has to be defined on same local scope for it to work
      * @note  Has recursive algorithm
      * @pre	  mTokens must have all necessary tokens
-     * @param word in string
+     * @param word in string, recursion depth to keep track how short to cut a string
      * @return set of WordType (or tags)
      */
     set<WordType> Converter::getWordTypes(string wordname, size_t recurDepth)
@@ -143,7 +144,6 @@ namespace NLP
          }
 
         /// Extracting process
-        QSqlRecord rec = mLiteQr.record();
         while( mLiteQr.next() ) {
             rawTypesCollections += string(" "); /// Add spaces in-between to make extracting easier
             rawTypesCollections += mLiteQr.value(0).toString().toStdString();
@@ -157,11 +157,14 @@ namespace NLP
 //            cout << "len WT of " << wordname << " : " << rawTypesCollections.length() << endl;
 //            cout << " calling recursive for : " << wordname << endl;
             return getWordTypes(wordname.substr(0, wordname.length() - 1), recurDepth + 1);
+        } else if (recurDepth > 2 || wordname.length () <= 1){
+            set<WordType> nameEntity;
+            nameEntity.insert (WordType::noun);
+            return nameEntity;
         }
-
         /// Clean up comma, and maybe other weird character in wordtypes if necessary
-        rawTypesCollections.erase(std::remove(rawTypesCollections.begin(),
-                                              rawTypesCollections.end(), ',')
+        rawTypesCollections.erase(std::remove(rawTypesCollections.begin()
+                                  , rawTypesCollections.end(), ',')
                                   , rawTypesCollections.end());
         rawTypesCollections.erase(std::remove(rawTypesCollections.begin(),
                                               rawTypesCollections.end(), '&')
