@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include <map>
 
 void testToken();//NOTE: Because this file has implementation .cpp,
@@ -51,6 +52,9 @@ class Token
         Token(char ch, TokenType type);
         TokenType getType() const;
         string getTokenString() const;
+
+        /// transformation
+        void alltolower();
 
         Token& operator = (const Token& newToken);
         const string& operator * ();

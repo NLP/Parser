@@ -33,6 +33,7 @@ namespace NLP
 
             // Helper function
             void          extractTokens();
+            void 		  convertAllToLower(); /// this is needed for database consistency
             set<WordType> getWordTypes(string wordname, size_t recurDepth = 0);
 
         public:
@@ -91,6 +92,18 @@ namespace NLP
         while (mySTokenize.More()) {
             mTokens.push_back(mySTokenize.nextToken());
         }
+        convertAllToLower ();
+    }
+
+    /**
+     * @brief Converter::convertAllToLower
+     * 		convert all string of tokens to lower case,
+     * 		So database will have easier time to query objects
+     */
+    void Converter::convertAllToLower()
+    {
+        for(Token& tok : mTokens)
+            tok.alltolower ();
     }
 
     /**

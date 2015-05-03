@@ -38,6 +38,15 @@ string Token::getTokenString() const
     return mTokenString;
 }
 
+/**
+ * @brief Token::alltolower
+ * transform string to lower
+ */
+void Token::alltolower()
+{
+    std::transform(mTokenString.begin (), mTokenString.end (), mTokenString.begin (), ::tolower);
+}
+
 Token &Token::operator =(const Token &newToken)
 {
     this->mTokenString = newToken.mTokenString;
