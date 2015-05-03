@@ -155,9 +155,9 @@ namespace NLP
         /// check if wordtype query is empty, word is not too short, and not cut more than 2 times
         /// Finally, if the recursion does not fonund anyting,
         /// function will return a vector of only 'noun' type
-        if (rawTypesCollections.empty() && wordname.length() > 1 && recurDepth < 3) {
+        if (rawTypesCollections.empty() && wordname.length() > 2 && recurDepth < 3) {
             return getWordTypes(wordname.substr(0, wordname.length() - 1), recurDepth + 1);
-        } else if (recurDepth > 2 || wordname.length () <= 1){
+        } else if (rawTypesCollections.empty () && (recurDepth > 2 || wordname.length () <= 2)){
             set<WordType> nameEntity;
             nameEntity.insert (WordType::noun);
             return nameEntity;
