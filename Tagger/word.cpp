@@ -32,6 +32,7 @@ Word &Word::operator =(const Word &newToken)
     this->mType  = newToken.getType();
     mTypes       = newToken.getTypes();
     mDefinitions = newToken.getDefinitions();
+    return *this;
 }
 
 std::set<WordType> Word::getTypes() const
