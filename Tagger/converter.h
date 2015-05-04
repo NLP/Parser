@@ -63,7 +63,8 @@ namespace NLP
             qDebug() << mDb.lastError();
             qFatal( "Failed to connect to database." );
             throw std::invalid_argument("Error: Invalid database");
-        } else { qDebug() << "Debug: Database opened." << endl; }
+        }
+//        else { qDebug() << "Debug: Database opened." << endl; }
     }
 
     /**
